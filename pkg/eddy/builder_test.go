@@ -37,7 +37,7 @@ var _ = Describe("Builder", func() {
 				WantedBy:   "wanted-by-other",
 				RequiredBy: "required-by-other",
 			},
-			Section: struct{}{},
+			Service: eddy.Service{},
 		}
 
 		Specify("description is set", func() {

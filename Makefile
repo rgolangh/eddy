@@ -6,7 +6,7 @@ GOTEST=$(GOCMD) test
 GOGET=$(GOCMD) get
 GODEP=dep
 
-PREFIX=out
+PREFIX=.
 
 VERSION?=$(shell git describe --tags --always --match "v[0-9]*" | awk -F'-' '{print substr($$1,2) }')
 RELEASE?=$(shell git describe --tags --always --match "v[0-9]*" | awk -F'-' '{if ($$2 != "") {print $$2 "." $$3} else {print 1}}')
@@ -25,12 +25,14 @@ all: clean deps build test
 binaries = \
 	eddy
 
-$(binaries): generate_dirs
-	go vet ./cmd/$@ && \
+$(binaries): vet
 	$(COMMON_ENV) $(GOBUILD) \
     	$(COMMON_GO_BUILD_FLAGS) \
     	-o $(PREFIX)/$@ \
     	-v cmd/$@/*.go
+
+vet:
+	go vet ./...
 
 build: $(binaries)
 
@@ -39,7 +41,7 @@ test:
 
 clean:
 	$(GOCLEAN)
-	git clean -dfx -e .idea*
+	git clean -df
 
 deps:
 	dep ensure --update
@@ -49,6 +51,4 @@ tarball: $(TARBALL)
 $(TARBALL):
 	/bin/git archive --format=tar.gz HEAD > $(TARBALL)
 
-generate_dirs:
-	mkdir out
 .PHONY: all tarball test build build-containers push-containers apb_build apb_docker_push apb_push
