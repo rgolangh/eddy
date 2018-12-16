@@ -15,4 +15,5 @@
 
 *.iml
 .idea
-eddy
+/eddy
+out
