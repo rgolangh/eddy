@@ -28,6 +28,13 @@
 [[constraint]]
   name = "gopkg.in/ini.v1"
   version = "1.39.2"
+[[constraint]]
+  name = "github.com/spf13/pflag"
+  version = "1.0.3"
+
+[[override]]
+  source = "https://github.com/fsnotify/fsnotify/archive/v1.4.7.tar.gz"
+  name = "gopkg.in/fsnotify.v1"
 
 [prune]
   go-tests = true

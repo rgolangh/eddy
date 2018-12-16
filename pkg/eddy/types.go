@@ -2,7 +2,7 @@ package eddy
 
 type UnitFile struct {
 	Unit    Unit
-	Section Section
+	Service Service
 	Install Install
 }
 
@@ -18,4 +18,10 @@ type Install struct {
 }
 
 type Section struct {
+}
+
+type Service struct {
+	ExecStart string
+	PidFile   string
+	Type      string
 }

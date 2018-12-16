@@ -2,7 +2,7 @@ package eddy
 
 import (
 	"gopkg.in/ini.v1"
-	"io"
+	"strings"
 )
 
 func Basic() UnitFile {
@@ -13,28 +13,27 @@ func Basic() UnitFile {
 			"",
 			"",
 		},
-		Section: struct{}{},
+		Service: Service{},
 		Install: Install{},
 	}
 }
 
 // Write will write the given unit file and return a reader,
 // unless an error has occurred
-func Write(unitfile UnitFile) (*io.PipeReader, error) {
-	r, w := io.Pipe()
-
+func Write(unitfile UnitFile) (string, error) {
 	iniFile, err := ToIniFile(unitfile)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
-	_, err = iniFile.WriteTo(w)
+	stringBuilder := strings.Builder{}
+	_, err = iniFile.WriteTo(&stringBuilder)
 
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
-	return r, nil
+	return stringBuilder.String(), nil
 }
 
 func ToIniFile(unitFile UnitFile) (*ini.File, error) {
