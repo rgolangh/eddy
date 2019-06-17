@@ -37,6 +37,7 @@ func Write(unitfile UnitFile) (string, error) {
 }
 
 func ToIniFile(unitFile UnitFile) (*ini.File, error) {
+	ini.PrettyFormat=false
 	file := ini.Empty()
 	err := ini.ReflectFrom(file, &unitFile)
 	if err != nil {

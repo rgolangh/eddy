@@ -9,8 +9,6 @@ import (
 
 
 func main() {
-	fmt.Println(os.Args)
-
 	var unitFile eddy.UnitFile
 	initFlags(&unitFile)
 
