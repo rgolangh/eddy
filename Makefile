@@ -29,7 +29,7 @@ $(binaries): vet
 	$(COMMON_ENV) $(GOBUILD) \
     	$(COMMON_GO_BUILD_FLAGS) \
     	-o $(PREFIX)/$@ \
-    	-v cmd/$@/*.go
+    	-v $@.go
 
 vet:
 	go vet ./...

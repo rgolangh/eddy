@@ -34,10 +34,9 @@ var _ = Describe("Builder", func() {
 				After:       "sybling-unitfile",
 			},
 			Install: eddy.Install{
-				WantedBy:   "wanted-by-other",
-				RequiredBy: "required-by-other",
+				WantedBy:   []string{"wanted-by-other"},
+				RequiredBy: []string{"required-by-other"},
 			},
-			Service: eddy.Service{},
 		}
 
 		Specify("description is set", func() {

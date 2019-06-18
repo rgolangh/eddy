@@ -1,10 +1,8 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/rgolangh/eddy/pkg/eddy"
 	"github.com/spf13/cobra"
-	"gopkg.in/ini.v1"
 	"os"
 )
 
@@ -31,13 +29,11 @@ longer description
 `,
 
 	Run: func(cmd *cobra.Command, args []string) {
-		ini.PrettyFormat=false
-		file := ini.Empty()
-		err := ini.ReflectFrom(file, &ServiceUnit)
+		iniFile, err := eddy.ToIniFile(&ServiceUnit)
 		if err != nil {
 			cmd.PrintErr(err)
 		}
-		file.WriteTo(os.Stdout)
+		iniFile.WriteTo(os.Stdout)
 	},
 }
 
@@ -49,7 +45,11 @@ longer description
 `,
 
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("create socket unit called")
+		err := eddy.Write(&SocketUnit, os.Stdout)
+		if err != nil {
+			cmd.PrintErr(err)
+			os.Exit(1)
+		}
 	},
 }
 

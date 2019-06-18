@@ -2,44 +2,36 @@ package eddy
 
 import (
 	"gopkg.in/ini.v1"
-	"strings"
+	"io"
 )
 
 func Basic() UnitFile {
 
 	return UnitFile{
 		Unit: Unit{
-			"desc",
-			"",
-			"",
+			Description: "desc",
 		},
-		Service: Service{},
 		Install: Install{},
 	}
 }
 
 // Write will write the given unit file and return a reader,
 // unless an error has occurred
-func Write(unitfile UnitFile) (string, error) {
-	iniFile, err := ToIniFile(unitfile)
+func Write(unit interface{}, writer io.Writer) error {
+	iniFile, err := ToIniFile(unit)
 	if err != nil {
-		return "", err
+		return err
 	}
 
-	stringBuilder := strings.Builder{}
-	_, err = iniFile.WriteTo(&stringBuilder)
+	_, err = iniFile.WriteTo(writer)
 
-	if err != nil {
-		return "", err
-	}
-
-	return stringBuilder.String(), nil
+	return err
 }
 
-func ToIniFile(unitFile UnitFile) (*ini.File, error) {
-	ini.PrettyFormat=false
+func ToIniFile(reader interface{}) (*ini.File, error) {
+	ini.PrettyFormat = false
 	file := ini.Empty()
-	err := ini.ReflectFrom(file, &unitFile)
+	err := ini.ReflectFrom(file, reader)
 	if err != nil {
 		return nil, err
 	}
