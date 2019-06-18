@@ -1,25 +1,28 @@
-package main
+package cmd
 
 import (
 	"fmt"
 	"github.com/rgolangh/eddy/pkg/eddy"
+	"github.com/spf13/cobra/cobra/cmd"
 	flag "github.com/spf13/pflag"
 	"os"
 )
 
 
 func main() {
-	var unitFile eddy.UnitFile
-	initFlags(&unitFile)
+	cmd.Execute()
 
-	iniAsString, err := eddy.Write(unitFile)
-
-	if err != nil {
-		exit(1, err.Error())
-	}
-
-	// print to out
-	exit(0, iniAsString)
+	//var unitFile eddy.UnitFile
+	//initFlags(&unitFile)
+	//
+	//iniAsString, err := eddy.Write(unitFile)
+	//
+	//if err != nil {
+	//	exit(1, err.Error())
+	//}
+	//
+	//// print to out
+	//exit(0, iniAsString)
 }
 
 
