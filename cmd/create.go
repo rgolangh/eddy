@@ -13,20 +13,16 @@ var SocketUnit eddy.SocketUnit
 var createCmd = &cobra.Command{
 	Use:   "create",
 	Short: "create a systemd unit file and write the output",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Long: `create a systemd unit file and write the output. For example:
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+eddy create service --description "my sleeping daemon" --exec-start "sleep 5m" --install-required-by "multi-user.target"
+`,
 }
 
 var serviceCmd = &cobra.Command{
-	Use: "service",
+	Use:   "service",
 	Short: "create a unit type service",
-	Long: `"create a unit type service",
-longer description
-`,
+	Long: "create a unit type service",
 
 	Run: func(cmd *cobra.Command, args []string) {
 		iniFile, err := eddy.ToIniFile(&ServiceUnit)
@@ -38,7 +34,7 @@ longer description
 }
 
 var socketCmd = &cobra.Command{
-	Use: "socket",
+	Use:   "socket",
 	Short: "create a unit type socket",
 	Long: `"create a unit type socket",
 longer description
