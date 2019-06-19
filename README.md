@@ -1,4 +1,4 @@
-# eddy the systemd unit file generator
+# eddy - a systemd unit file builder
 
 ## Create your service file
 
