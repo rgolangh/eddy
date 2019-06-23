@@ -14,7 +14,7 @@ type ServiceUnit struct {
 
 type SocketUnit struct {
 	Unit    Unit    `ini:",omitempty"`
-	Socket  Service `ini:",omitempty"`
+	Socket  Socket  `ini:",omitempty"`
 	Install Install `ini:",omitempty"`
 }
 
@@ -63,7 +63,18 @@ type Service struct {
 }
 
 type Socket struct {
-	UnitFile  UnitFile
-	ExecStart string
-	Type      string
+	ExecStartPre           string `ini:",omitempty"`
+	ExecStartPost          string `ini:",omitempty"`
+	ExecStopPre           string `ini:",omitempty"`
+	ExecStopPost          string `ini:",omitempty"`
+	ListenStream           string `ini:",omitempty"`
+	ListenDatagram         string `ini:",omitempty"`
+	ListenSequentialPacket string `ini:",omitempty"`
+	Socket string `ini:",omitempty"`
+	Accept bool `ini:",omitempty"`
+
+}
+
+type Exec struct {
+
 }

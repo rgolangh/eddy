@@ -24,28 +24,19 @@ var serviceCmd = &cobra.Command{
 	Short: "create a unit type service",
 	Long: "create a unit type service",
 
-	Run: func(cmd *cobra.Command, args []string) {
-		iniFile, err := eddy.ToIniFile(&ServiceUnit)
-		if err != nil {
-			cmd.PrintErr(err)
-		}
-		iniFile.WriteTo(os.Stdout)
+	RunE: func(cmd *cobra.Command, args []string) error {
+		return eddy.Write(&ServiceUnit, os.Stdout)
+
 	},
 }
 
 var socketCmd = &cobra.Command{
 	Use:   "socket",
 	Short: "create a unit type socket",
-	Long: `"create a unit type socket",
-longer description
-`,
+	Long: "create a unit type socket",
 
-	Run: func(cmd *cobra.Command, args []string) {
-		err := eddy.Write(&SocketUnit, os.Stdout)
-		if err != nil {
-			cmd.PrintErr(err)
-			os.Exit(1)
-		}
+	RunE: func(cmd *cobra.Command, args []string) error {
+		return eddy.Write(&SocketUnit, os.Stdout)
 	},
 }
 
@@ -55,6 +46,9 @@ func init() {
 	createCmd.AddCommand(socketCmd)
 
 	serviceCmd.Flags().StringVar(&ServiceUnit.Unit.Description, "description", "", "a description of the service")
+	serviceCmd.Flags().StringVar(&ServiceUnit.Unit.Documentation, "documentation", "", "a space-separated list of URIs referencing documentation for this unit or its configuration. description of the service")
+	serviceCmd.Flags().StringVar(&ServiceUnit.Unit.Requires, "requires", "", "configures requirement dependencies on other unites")
+	serviceCmd.Flags().StringVar(&ServiceUnit.Unit.Requisite, "requisite", "", "similar to requires, units listed here will not be started")
 	serviceCmd.Flags().StringVar(&ServiceUnit.Service.ExecStart, "exec-start", "", "exec start of the service")
 	serviceCmd.Flags().StringVar(&ServiceUnit.Service.PIDFile, "pid-file", "", "the pid file of the service")
 	serviceCmd.Flags().StringVar(&ServiceUnit.Service.Type, "service-type", "", "the type of the service e.g forking")
@@ -62,4 +56,15 @@ func init() {
 	serviceCmd.Flags().StringArrayVar(&ServiceUnit.Install.RequiredBy, "install-required-by", []string{}, "a WantedBy specification, e.g multi-user.target")
 
 	socketCmd.Flags().StringVar(&SocketUnit.Unit.Description, "description", "", "a description of the socket")
+	socketCmd.Flags().StringVar(&SocketUnit.Unit.Documentation, "documentation", "", "a space-separated list of URIs referencing documentation for this unit or its configuration. description of the service")
+	socketCmd.Flags().StringVar(&SocketUnit.Unit.Requires, "requires", "", "configures requirement dependencies on other unites")
+	socketCmd.Flags().StringVar(&SocketUnit.Unit.Requisite, "requisite", "", "similar to requires, units listed here will not be started")
+	socketCmd.Flags().StringVar(&SocketUnit.Socket.ExecStartPre, "exec-start-pre", "", "pre exec start of the service")
+	socketCmd.Flags().StringVar(&SocketUnit.Socket.ExecStopPre, "exec-stop-post", "", "pre exec stop of the service")
+	socketCmd.Flags().StringVar(&SocketUnit.Socket.ListenDatagram, "socket-listen-datagram", "", "")
+	socketCmd.Flags().StringVar(&SocketUnit.Socket.ListenSequentialPacket, "socket-listen-sequential-packet", "", "")
+	socketCmd.Flags().StringVar(&SocketUnit.Socket.ListenStream, "socket-listen-stream", "", "")
+	socketCmd.Flags().StringArrayVar(&SocketUnit.Install.WantedBy, "install-wanted-by", []string{}, "a WantedBy specification, e.g multi-user.target")
+	socketCmd.Flags().StringArrayVar(&SocketUnit.Install.RequiredBy, "install-required-by", []string{}, "a WantedBy specification, e.g multi-user.target")
+
 }

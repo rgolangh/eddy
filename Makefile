@@ -20,7 +20,7 @@ COMMON_GO_BUILD_FLAGS=-ldflags '-extldflags "-static"'
 
 TARBALL=eddy-$(VERSION_RELEASE).tar.gz
 
-all: clean deps build test
+all: build test
 
 binaries = \
 	eddy
@@ -43,12 +43,9 @@ clean:
 	$(GOCLEAN)
 	git clean -df
 
-deps:
-	dep ensure --update
-
 tarball: $(TARBALL)
 
 $(TARBALL):
 	/bin/git archive --format=tar.gz HEAD > $(TARBALL)
 
-.PHONY: all tarball test build build-containers push-containers apb_build apb_docker_push apb_push
+.PHONY: all clean tarball test build vet
